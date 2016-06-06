@@ -1,4 +1,9 @@
-
+.hidden{
+    display:none;
+}
+.dragon-surprise{
+    display:absolute;
+}
 img{
     width: 33.33%;
     height: 350px;

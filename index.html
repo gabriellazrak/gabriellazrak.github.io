@@ -17,13 +17,17 @@
             <h1>Gabriel Lazrak</h1>
             <p>Hack Camp Particpant</p>
             <p>Dragons are cool</p>
-            <p><a href="https://www.google.com/search?q=dragons&source=lnms&tbm=isch&sa=X&ved=0ahUKEwi8xdjeiZTNAhUYVlIKHSP4DEQQ_AUIBygB&biw=1916&bih=938">https://www.google.com/search?q=dragons&source=lnms&tbm=isch&sa=X&ved=0ahUKEwi8xdjeiZTNAhUYVlIKHSP4DEQQ_AUIBygB&biw=1916&bih=938</a></p>
+            <p><button id="gifButton">Click me!</button></p>
+            <img id="gif" class="hidden" src="http://i.giphy.com/FuLrWFLt9Feg.gif">
         </div>
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script src="movement.js"></script>
         <script>
             $(document).ready(function(){
                 $("#slideImg").rotate();
+                $("#gifButton").click(function(){
+                    $("#gif").switchClass("hidden","dragon-surprise");
+                })
             });
         </script>
     </body>
