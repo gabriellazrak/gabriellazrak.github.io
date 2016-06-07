@@ -3,7 +3,7 @@
 
     //é»˜è®¤å€¼
   var defaults = {
-    speed:10,
+    speed:15,
     width:"900px",
     slide1:".slide1"
   }
@@ -12,7 +12,7 @@
   this.each(function(){
     var thisR = $(this),
         thisC = thisR.children();
-    thisR.append('<a href="javascript:;" class="rotate-prev">Prev</a>');
+    thisR.append('<a href="javascript:;" class="rotate-prev"></a>');
     thisC.append('<ul class="slide2">'+ $(options.slide1).html() +'</ul>');
     thisR.css({'overflow':'hidden','width':options.width});
     thisC.css('width','12000px').children().css('float','left');
