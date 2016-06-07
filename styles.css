@@ -2,7 +2,14 @@
     display:none;
 }
 .dragon-surprise{
-    display:absolute;
+    position: fixed;
+    margin:0;
+    padding:0;
+    top:0;
+    left:0;
+    z-index: 100;
+    width:100%;
+    height:100%;
 }
 img{
     width: 33.33%;

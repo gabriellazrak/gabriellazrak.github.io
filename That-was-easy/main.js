@@ -18,7 +18,7 @@ function delegateKeypress(event){
     if (event.charCode===99){
         oops();
         setTimeout(function(){
-            close();
+            window.close();
         }, delay);
     }
 }

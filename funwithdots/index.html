@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="style1.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1 id="heading">Phun With Physics</h1>
+        <button id="start" class="showing">START</button>
+        <div id="balls">
+            <img id="b1" src="http://www.primordia.com/blog//archives/images/Green.png">
+        </div>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script
+			  src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+			  integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
+			  crossorigin="anonymous"></script>
+        <script src="js.js"></script>
+        <script>
+            $("#start").click(function(){
+                 $("#start").switchClass("showing", "hide");
+            });
+        </script>
+    </body>
+</html>
