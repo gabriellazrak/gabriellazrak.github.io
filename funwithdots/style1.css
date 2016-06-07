@@ -4,7 +4,7 @@
     margin-left:40%;
     opacity:.25;
 }
-#start.showing{
+#start{
     font-size:75;
     margin-left:46.5%;
 }
@@ -12,7 +12,15 @@
     display:none;
 }
 
-.b1{
+#b1{
     height: 10%;
     width: 10%;
+    left: 0px;
+}
+body{
+    background-color:red;
+}
+#balls{
+    height:100%;
+    width:100%;
 }
