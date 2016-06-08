@@ -1,6 +1,6 @@
 var imgObj=null;
-var x_motion=1;
-var y_motion=-1;
+var x_motion=randomIntFromInterval(.5,4);
+var y_motion=randomIntFromInterval(-4,-.5);
 var score=0;
 var timer;
 function init(){
@@ -12,6 +12,10 @@ function init(){
 $(document).ready(init());
 var width=$("#b1").width();
 var height=$("#b1").height();
+function randomIntFromInterval(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
 function move(){
     if ((parseInt(imgObj.style.left)+width+9)>=window.innerWidth || ((parseInt(imgObj.style.left))<=-1)){
         x_motion=x_motion*-1;
@@ -27,8 +31,8 @@ function startMoving() {
 }
 function addPoints(){
     score=score+1;
-    var element=document.getElementById("moving");
-    element.innerHTML="points: "+score;
+    var thing=document.getElementById("moving");
+    thing.innerHTML="points: "+score;
 }
 function points(){
     setInterval(addPoints,100);
@@ -45,3 +49,10 @@ function bad_points(){
 }
 $("#start").on("click", startMoving);
 $("#start").on("click", points);
+winning()
+function winning(){
+    for (;score>=1000;){
+        var title_o_page=document.getElementById("heading")
+        title_o_page.innerHTML="YOU WIN"
+    }
+}

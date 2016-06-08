@@ -1,4 +1,4 @@
-var NUM_CIRCLES=12;
+var NUM_CIRCLES=100;
 var circleDiameter;
 var circleRadius;
 function setup(){
@@ -19,7 +19,7 @@ function draw(){
         }
         while (x<=width){
             fill(color(rVal,gVal,bVal));
-            stroke(color(rVal,gVal,bVal));
+            stroke(color(0,0,0));
             ellipse(x,y,circleDiameter,circleDiameter);
             x=x+circleDiameter;
         }
