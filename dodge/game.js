@@ -141,6 +141,20 @@ function keyPressed(){
         mouseClicked() 
     }
 }
+function touchMoved(){
+    if(player.position.x<touchX){
+        player.position.x+=5
+    }
+    else{
+        player.position.x-=5
+    }
+    if(player.position.y<touchY){
+        player.position.y+=5
+    }
+    else{
+        player.position.y-=5
+    }
+}
 function cheater(){
     background(0);
     textAlign(CENTER);
