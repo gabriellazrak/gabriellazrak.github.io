@@ -141,7 +141,7 @@ function keyPressed(){
         mouseClicked() 
     }
 }
-function touchMoved(){
+function touchIsdown(){
     if(player.position.x<touchX){
         player.position.x+=5
     }
