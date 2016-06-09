@@ -45,9 +45,6 @@ function setup(){
 function draw(){
     if (isGameOver){
         gameOver();
-        if (touchIsDown){
-            mouseClicked();
-        }
     }
     else if (didYouCheat){
         cheater();
@@ -166,4 +163,7 @@ function cheater(){
     text("Your score was: 0!!!",width/2,height/1.9);
     score=0;
     text("Click anywhere or press space to redeem yourself",width/2,3*height/4);
+}
+function touchStarted(){
+    mouseClicked()
 }
