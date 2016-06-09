@@ -108,13 +108,13 @@ function draw(){
             didYouCheat=true
         }
         if (touchIsDown){
-            if(player.position.x<touchX){
+            if((player.position.x<touchX)&&(width-(playerImg.width/2)-105>player.position.x>(playerImg.width/2))){
                 player.position.x+=5;
             }
             else{
                 player.position.x-=5;
             }
-            if(player.position.y<touchY){
+            if((player.position.y<touchY)&&(playerImg.height<player.position.y<height-(playerImg.height))){
                 player.position.y+=5;
             }
             else{
