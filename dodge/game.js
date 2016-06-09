@@ -45,6 +45,9 @@ function setup(){
 function draw(){
     if (isGameOver){
         gameOver();
+        if (touchIsDown){
+            mouseClicked();
+        }
     }
     else if (didYouCheat){
         cheater();
