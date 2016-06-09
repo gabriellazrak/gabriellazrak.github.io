@@ -107,6 +107,21 @@ function draw(){
         if (player.position.x>width-105){
             didYouCheat=true
         }
+        if (touchIsDown){
+            if(player.position.x<ptouchX){
+                player.position.x+=5;
+            }
+            else{
+                player.position.x-=5;
+            }
+            if(player.position.y<ptouchY){
+                player.position.y+=5;
+            }
+            else{
+                player.position.y-=5;
+            }
+            return false;
+        }
         fill("white");
         text("level: "+level,50,25);
         drawSprites();
@@ -139,20 +154,6 @@ function mouseClicked(){
 function keyPressed(){
     if (keyCode===32){
         mouseClicked() 
-    }
-}
-function touchIsdown(){
-    if(player.position.x<ptouchX){
-        player.position.x+=5
-    }
-    else{
-        player.position.x-=5
-    }
-    if(player.position.y<ptouchY){
-        player.position.y+=5
-    }
-    else{
-        player.position.y-=5
     }
 }
 function cheater(){
