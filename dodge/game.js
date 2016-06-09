@@ -120,7 +120,6 @@ function draw(){
             else{
                 player.position.y-=5;
             }
-            return false;
         }
         fill("white");
         text("level: "+level,50,25);
