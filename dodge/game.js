@@ -52,7 +52,7 @@ function draw(){
     else{
         background(backgroundImg);
         console.log("Canvas: width - " + width + " height - " + height + ", Player: (" + player.position.x + ", " + player.position.y + ")");
-        if (keyDown(RIGHT_ARROW)&&player.position.x<width-(playerImg.width/2)-105){
+        if (keyDown(RIGHT_ARROW)&&player.position.x<width-(playerImg.width/2)){
             player.position.x=player.position.x+5;
         }
         if (keyDown(LEFT_ARROW)&&player.position.x>(playerImg.width/2)){
@@ -67,7 +67,7 @@ function draw(){
         enemy.position.y=enemy.position.y+enemySpeed;
         if (enemy.position.y>height){
             enemy.position.y=0;
-            enemy.position.x=random(5,width-105);
+            enemy.position.x=random(5,width-5);
             enemySpeed=random(level,level+9);
         }
         if (enemy.overlap(player)){
@@ -76,7 +76,7 @@ function draw(){
         enemy2.position.y=enemy2.position.y+enemy2Speed;
         if (enemy2.position.y>height){
             enemy2.position.y=0;
-            enemy2.position.x=random(5,width-105);
+            enemy2.position.x=random(5,width-5);
             enemy2Speed=random(level,level+9);
         }
         if (enemy2.overlap(player)){
@@ -85,7 +85,7 @@ function draw(){
         enemy3.position.y=enemy3.position.y+enemy3Speed;
         if (enemy3.position.y>height){
             enemy3.position.y=0;
-            enemy3.position.x=random(5,width-105);
+            enemy3.position.x=random(5,width-5);
             enemy3Speed=random(level,level+9);
         }
         if (enemy3.overlap(player)){
@@ -104,11 +104,8 @@ function draw(){
         if (score>10*level){
             level=level+1;
         }
-        if (player.position.x>width-105){
-            didYouCheat=true
-        }
         if (touchIsDown){
-            if((player.position.x<touchX)&&(width-(playerImg.width/2)-105>player.position.x>(playerImg.width/2))){
+            if((player.position.x<touchX)&&(width-(playerImg.width/2)>player.position.x>(playerImg.width/2))){
                 player.position.x+=5;
             }
             else{
