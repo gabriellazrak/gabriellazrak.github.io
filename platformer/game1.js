@@ -11,13 +11,14 @@ var playerImg;
 var backgroundImg;
 var score;
 var difficulty=.98;
-
+var bonusImg;
 var level=1;
 var bonuses;
 var started=false;
 
 function preload(){
-    // playerImg=loadImage("http://imgur.com/2bCy0iJ")
+    bonusImg=loadImage("http://i.imgur.com/lSz4tzz.png")
+    playerImg=loadImage("http://i.imgur.com/wSfOgkq.png")
     // backgroundImg=loadImage("http://i.imgur.com/dQAcEkX.jpg");
 }
 function setup(){
@@ -27,7 +28,7 @@ function setup(){
     background(0);
     groundSprites= new Group();
     player=createSprite(width/2,height-75,50,50);
-    // player.addImage(playerImg);
+    player.addImage(playerImg);
     numGroundSprites=width/GROUND_SPRITE_WIDTH +1;
     for (var n = 0; n < numGroundSprites;n++){
         var groundSprite = createSprite(n*50,height-25,GROUND_SPRITE_WIDTH,GROUND_SPRITE_HEIGHT);
@@ -53,6 +54,7 @@ function draw(){
         }
         if(random()>.99){
             var jewel=createSprite(camera.position.x+width,random(0,height-65),10,10);
+            jewel.addImage(bonusImg);
             bonuses.add(jewel);
         }
         var firstJewel = bonuses[0];
@@ -72,7 +74,7 @@ function draw(){
             player.position.x = player.position.x - 3;
         }
         if (keyDown(RIGHT_ARROW)){
-            player.position.x = player.position.x + 3;
+            player.position.x = player.position.x + 3+(level*.2);
         }
         if (keyDown(UP_ARROW)&&player.position.y>=player.height){
             player.velocity.y=JUMP;
