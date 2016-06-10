@@ -13,6 +13,7 @@ var score;
 var difficulty=.98;
 var level=1;
 var bonuses;
+var started=false;
 
 function preload(){
     // playerImg=loadImage("http://imgur.com/2bCy0iJ")
@@ -22,7 +23,7 @@ function setup(){
     isGameOver=false;
     score=0;
     createCanvas(window.innerWidth-100,window.innerHeight-100);
-    background(150,200,250);
+    background(0);
     groundSprites= new Group();
     player=createSprite(width/2,height-75,50,50);
     // player.addImage(playerImg);
@@ -34,6 +35,7 @@ function setup(){
     obstacleSprites= new Group(); 
     bonuses= new Group();
 }
+$("#start").on("click",new_game);
 function draw(){
     if (isGameOver){
         background(0);
@@ -41,7 +43,8 @@ function draw(){
         textAlign(CENTER);
         text("Your score was: " + score, camera.position.x, camera.position.y - 20);
         text("Game Over! Click anywhere to restart",camera.position.x,camera.position.y);
-    }else{
+    }
+    if(started){
         background(0);
         if(random()>difficulty){
             var obstacle=createSprite(camera.position.x+width,random(0,height-65),30,30);
@@ -104,6 +107,12 @@ function draw(){
 
 function endGame(){
     isGameOver=true;
+    started=false;
+}
+function keyPressed(){
+    if (keyCode===32){
+        mouseClicked();
+    }
 }
 
 function mouseClicked(){
@@ -120,9 +129,14 @@ function mouseClicked(){
         difficulty=.98;
         level=1;
         isGameOver=false;
+        started=true;
     }
 }
 function bonus(point){
     score+=200;
     point.remove();
+}
+function new_game(){
+    started=true;
+    isGameOver=false;
 }
