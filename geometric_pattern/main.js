@@ -1,4 +1,4 @@
-var NUM_CIRCLES=100;
+var NUM_CIRCLES=5;
 var circleDiameter;
 var circleRadius;
 function setup(){
@@ -19,15 +19,15 @@ function draw(){
         }
         while (x<=width){
             fill(color(rVal,gVal,bVal));
-            stroke(color(0,0,0));
+            stroke(color(random(0,255),random(0,255),random(0,255)));
             ellipse(x,y,circleDiameter,circleDiameter);
             x=x+circleDiameter;
         }
         y=y-circleRadius;
         isShifted = !isShifted;
-        rVal=rVal-2;
-        gVal=gVal+7;
-        bVal=bVal+3;
+        rVal=rVal-random(10,24);
+        gVal=gVal+random(10,24);
+        bVal=bVal+random(10,24);
     }
 }
 
