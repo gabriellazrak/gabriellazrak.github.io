@@ -11,6 +11,7 @@ var playerImg;
 var backgroundImg;
 var score;
 var difficulty=.98;
+
 var level=1;
 var bonuses;
 var started=false;
@@ -42,7 +43,7 @@ function draw(){
         fill(255);
         textAlign(CENTER);
         text("Your score was: " + score, camera.position.x, camera.position.y - 20);
-        text("Game Over! Click anywhere to restart",camera.position.x,camera.position.y);
+        text("Game Over! Click anywhere or press space to restart",camera.position.x,camera.position.y);
     }
     if(started){
         background(0);
@@ -76,7 +77,7 @@ function draw(){
         if (keyDown(UP_ARROW)&&player.position.y>=player.height){
             player.velocity.y=JUMP;
         }
-        camera.position.x+=2
+        camera.position.x+=2+(level*.2)
         var firstGroundSprite = groundSprites[0];
         if (firstGroundSprite.position.x<=camera.position.x-(width/2 + firstGroundSprite.width/2)){
             groundSprites.remove(firstGroundSprite);
@@ -86,7 +87,7 @@ function draw(){
         obstacleSprites.overlap(player, endGame);
         bonuses.overlap(player,bonus);
         if (keyDown(RIGHT_ARROW)){
-            score+=2;
+            score+=4;
         }else if (keyDown(LEFT_ARROW)){
             score+=0
         }else{
@@ -96,10 +97,11 @@ function draw(){
         text(score,camera.position.x,10);
         if (score>1000*level){
             level+=1
-            difficulty-=.005;
+            difficulty-=.01;
         }
-        if (player.position.x+width/2<=camera.position.x){
+        if (player.position.x+width/2 + player.width/2<=camera.position.x){
             isGameOver=true;
+            started=false;
         }
         drawSprites();
     }
@@ -125,6 +127,7 @@ function mouseClicked(){
         player.position.x = camera.position.x;
         player.position.y = height-75;
         obstacleSprites.removeSprites();
+        bonuses.removeSprites();
         score=0;
         difficulty=.98;
         level=1;
