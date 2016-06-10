@@ -8,7 +8,7 @@ var JUMP=-5;
 var obstacleSprites;
 var isGameOver;
 var playerImg;
-var backgroundImg;
+var enemyImg;
 var score;
 var difficulty=.98;
 var bonusImg;
@@ -18,8 +18,8 @@ var started=false;
 
 function preload(){
     bonusImg=loadImage("http://i.imgur.com/lSz4tzz.png")
-    playerImg=loadImage("http://i.imgur.com/wSfOgkq.png")
-    // backgroundImg=loadImage("http://i.imgur.com/dQAcEkX.jpg");
+    playerImg=loadImage("http://i.imgur.com/dWjmlGE.png")
+    enemyImg=loadImage("http://i.imgur.com/DXk9fPO.png")
 }
 function setup(){
     isGameOver=false;
@@ -50,6 +50,7 @@ function draw(){
         background(0);
         if(random()>difficulty){
             var obstacle=createSprite(camera.position.x+width,random(0,height-65),30,30);
+            obstacle.addImage(enemyImg)
             obstacleSprites.add(obstacle);
         }
         if(random()>.99){
