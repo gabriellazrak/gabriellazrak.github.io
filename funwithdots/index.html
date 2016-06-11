@@ -23,6 +23,12 @@
             $("#start").click(function(){
                  $("#start").switchClass("showing", "hide");
             });
+            function cloner(){
+                var new_thing= new Imag("#b1").clone()
+                new_thing.style.left=0
+                new_thing.style.top=0
+            }
+            setInterval(cloner,1000)
         </script>
     </body>
 </html>

@@ -12,7 +12,7 @@ var enemySpeed;
 var enemy2Speed;
 var enemy3Speed;
 var didYouCheat;
-
+var started=false;
 enemySpeed=0;
 enemy2Speed=0;
 enemy3Speed=0;
@@ -42,6 +42,7 @@ function setup(){
     enemy2Speed=random(level,level+9);
     enemy3Speed=random(level,level+9);
 }
+$("#start").on("click",new_game);
 function draw(){
     if (isGameOver){
         gameOver();
@@ -49,7 +50,7 @@ function draw(){
     else if (didYouCheat){
         cheater();
     }
-    else{
+    else if(started){
         background(backgroundImg);
         console.log("Canvas: width - " + width + " height - " + height + ", Player: (" + player.position.x + ", " + player.position.y + ")");
         if (keyDown(RIGHT_ARROW)&&player.position.x<width-(playerImg.width/2)){
@@ -163,4 +164,8 @@ function cheater(){
 }
 function touchStarted(){
     mouseClicked()
+}
+function new_game(){
+    started=true;
+    isGameOver=false;
 }
