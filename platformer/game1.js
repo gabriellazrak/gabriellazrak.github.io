@@ -231,11 +231,12 @@ function mouseClicked(){
         }
         player.position.x = camera.position.x;
         player.position.y = height-75;
-        player2.position.x = camera.position.x-25;
+        player2.position.x = camera.position.x-50;
         player2.position.y = height-75;
         obstacleSprites.removeSprites();
         bonuses.removeSprites();
         powerups.removeSprites();
+        trump_shots.removeSprites();
         score=0;
         score2=0;
         difficulty=.98;
