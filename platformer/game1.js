@@ -21,25 +21,38 @@ var level=1;
 var bonuses;
 var started=false;
 var p1Lbl;
+var fire_p1;
+var fire_p2;
+var fire;
+var trump_shots;
+var turdImg;
+var shooters;
+var powerups;
 
 function preload(){
-    bonusImg=loadImage("http://i.imgur.com/lSz4tzz.png")
-    player1Lbl=loadImage("http://i.imgur.com/ABi3WVa.gif")
-    player2Lbl=loadImage("http://i.imgur.com/vx9WPrt.jpg")
-    enemyImg=loadImage("http://i.imgur.com/DXk9fPO.png")
+    bonusImg=loadImage("http://i.imgur.com/lSz4tzz.png");
+    player1Lbl=loadImage("http://i.imgur.com/ABi3WVa.gif");
+    player2Lbl=loadImage("http://i.imgur.com/vx9WPrt.jpg");
+    enemyImg=loadImage("http://i.imgur.com/DXk9fPO.png");
+    fire=loadImage("http://i.imgur.com/rwx0YvP.png");
+    turdImg=loadImage("http://i.imgur.com/mnwfIL9.gif");
+    
 }
 function setup(){
     isGameOver=false;
     p1_in=true;
     p2_in=true;
+    started=false;
     score=0;
+    fire_p1=false;
+    fire_p2=false;
     createCanvas(window.innerWidth-100,window.innerHeight-100);
     background(0);
     groundSprites= new Group();
     player=createSprite(width/2,height-75,50,50);
-    p1Lbl=createSprite(player.width,player.height+42.5,50,50);
+    p1Lbl=createSprite(player.width,player.height-42.5,50,50);
     p1Lbl.addImage(player1Lbl);
-    player2=createSprite(width/2.1,height-75,50,50);
+    player2=createSprite(width/2-50,height-75,50,50);
     p2Lbl=createSprite(player2.width,player2.height-39,50,50);
     p2Lbl.addImage(player2Lbl);
     numGroundSprites=width/GROUND_SPRITE_WIDTH +1;
@@ -49,6 +62,9 @@ function setup(){
     }
     obstacleSprites= new Group(); 
     bonuses= new Group();
+    powerups= new Group();
+    shooters= new Group();
+    trump_shots= new Group();
 }
 $("#start").on("click",new_game);
 function draw(){
@@ -56,21 +72,39 @@ function draw(){
         background(0);
         fill(255);
         textAlign(CENTER);
-        text("Player 1's score was: " + score, camera.position.x, camera.position.y - 20);
-        text("Player 2's score was: " + score2, camera.position.x, camera.position.y - 40);
-        text("Game Over! Click anywhere or press space to restart",camera.position.x,camera.position.y);
+        text("Player 1's score was: " + score, camera.position.x, camera.position.y - 40);
+        text("Player 2's score was: " + score2, camera.position.x, camera.position.y - 20);
+        if(score>score2){
+            text("Player 1 wins!!!", camera.position.x, camera.position.y);
+        }else if (score2>score){
+            text("Player 2 wins!!!", camera.position.x, camera.position.y);
+        }else{
+            text("You somehow managed to tie. Bravo.", camera.position.x, camera.position.y);
+        }
+        text("Game Over! Click anywhere or press space to restart",camera.position.x,camera.position.y+20);
     }
     if(started&&(p1_in||p2_in)){
         background(0);
         if(random()>difficulty){
             var obstacle=createSprite(camera.position.x+width,random(0,height-65),30,30);
-            obstacle.addImage(enemyImg)
+            obstacle.addImage(enemyImg);
             obstacleSprites.add(obstacle);
+            if (random()>.75){
+                var bullet=createSprite(obstacle.position.x,obstacle.position.y,20,20);
+                bullet.addImage(turdImg);
+                bullet.velocity.x=-5;
+                trump_shots.add(bullet);
+            }
         }
         if(random()>.99){
             var jewel=createSprite(camera.position.x+width,random(0,height-65),10,10);
             jewel.addImage(bonusImg);
             bonuses.add(jewel);
+        }
+        if(random()>.995){
+            var fireball=createSprite(camera.position.x+width,random(0,height-65),30,32);
+            fireball.addImage(fire);
+            powerups.add(fireball);
         }
         var firstJewel = bonuses[0];
         if (bonuses.length>0&&firstJewel.position.x<=camera.position.x-(width/2+firstJewel.width/2)){
@@ -79,6 +113,10 @@ function draw(){
         var firstObstacle = obstacleSprites[0];
         if (obstacleSprites.length>0&&firstObstacle.position.x<=camera.position.x-(width/2+firstObstacle.width/2)){
             removeSprite(firstObstacle);
+        }
+        var firstPower = powerups[0];
+        if (powerups.length>0&&firstPower.position.x<=camera.position.x-(width/2+firstPower.width/2)){
+            removeSprite(firstPower);
         }
         player.velocity.y = player.velocity.y + GRAVITY;
         if (groundSprites.overlap(player)&&p1_in) {
@@ -117,10 +155,19 @@ function draw(){
         }
         obstacleSprites.overlap(player, p1_game_over);
         bonuses.overlap(player,bonus);
+        powerups.overlap(player,p1_power);
+        trump_shots.overlap(player,p1_game_over);
+        trump_shots.overlap(player,destroy_both);
         obstacleSprites.overlap(player2, p2_game_over);
         bonuses.overlap(player2,bonus2);
+        powerups.overlap(player2,p2_power);
+        trump_shots.overlap(player2,p2_game_over);
+        trump_shots.overlap(player2,destroy_both);
+        obstacleSprites.overlap(shooters,destroy_both);
+        shooters.overlap(obstacleSprites,destroy_both);
+        trump_shots.overlap(shooters,destroy_both);
         if (keyDown(LEFT_ARROW)&&p1_in===true){
-            score+=0
+            score+=0;
         }else if(p1_in){
             score+=1;
         }if (keyDown(65)&&p2_in===true){
@@ -142,23 +189,36 @@ function draw(){
             p2_in=false;
         }
         p1Lbl.position.x=player.position.x;
-        p1Lbl.position.y=player.position.y+42.5;
+        p1Lbl.position.y=player.position.y-42.5;
         p2Lbl.position.x=player2.position.x;
         p2Lbl.position.y=player2.position.y-39;
         drawSprites();
     }
-    else{
+    if(!p1_in&&!p2_in){
         isGameOver=true;
     }
-}
-
-function endGame(){
-    isGameOver=true;
-    started=false;
 }
 function keyPressed(){
     if (keyCode===32){
         mouseClicked();
+    }
+    if(keyCode===DOWN_ARROW&&fire_p1){
+        var ball=createSprite(camera.position.x+width,random(0,height-65),30,32);
+        ball.addImage(fire);
+        ball.position.x=player.position.x;
+        ball.position.y=player.position.y;
+        ball.velocity.x=10;
+        shooters.add(ball);
+        fire_p1=false;
+    }
+    if(keyCode===83&&fire_p2){
+        var ball2=createSprite(camera.position.x+width,random(0,height-65),30,32);
+        ball2.addImage(fire);
+        ball2.position.x=player2.position.x;
+        ball2.position.y=player2.position.y;
+        ball2.velocity.x=10;
+        shooters.add(ball2);
+        fire_p2=false;
     }
 }
 
@@ -175,6 +235,7 @@ function mouseClicked(){
         player2.position.y = height-75;
         obstacleSprites.removeSprites();
         bonuses.removeSprites();
+        powerups.removeSprites();
         score=0;
         score2=0;
         difficulty=.98;
@@ -196,10 +257,23 @@ function bonus2(point){
 function new_game(){
     started=true;
     isGameOver=false;
+    p1_in=true;
+    p2_in=true;
 }
 function p1_game_over(){
     p1_in=false;
 }
 function p2_game_over(){
     p2_in=false;
+}
+function p1_power(point){
+    fire_p1=true;
+    point.remove();
+}
+function p2_power(point){
+    fire_p2=true;
+    point.remove();
+}
+function destroy_both(point){
+    point.remove();
 }
