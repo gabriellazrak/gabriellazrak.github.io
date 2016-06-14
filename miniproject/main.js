@@ -128,7 +128,7 @@ function draw(){
     }
 }
 function _reset(point){
-    if((player.position.y)<=(point.position.y-1)){
+    if((player.position.y)<=(point.position.y-(point.height/2 - 1))){
         if (player.velocity.y>=0){
             player.velocity.y=0;
             player.position.y=point.position.y-50;
@@ -178,6 +178,7 @@ function mouseClicked(){
             var bad_guy_width=airSprites[random_num].position.x;
             var bad_guy_height=airSprites[random_num].position.y;
             var bad_guy=createSprite(bad_guy_width,bad_guy_height,10,30);
+            bad_guy.addImage(shooterImg);
             shooters.add(bad_guy);
         }
     }
