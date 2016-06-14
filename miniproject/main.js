@@ -17,10 +17,12 @@ var difficulty;
 var lives;
 var shooterImg;
 var itemImg;
+var bulletImg
 
 function preload(){
     itemImg=loadImage("http://i.imgur.com/ZrExC4G.png");
     shooterImg=loadImage("http://i.imgur.com/r13SNg8.gif");
+    bulletImg=loadImage("http://i.imgur.com/GriWcw5.png");
 }
 
 function setup(){
@@ -82,6 +84,7 @@ function draw(){
             }else{
                 bullet.velocity.y=5;
             }
+            
             bullets.add(bullet);
         }
         if(keyDown(RIGHT_ARROW)&&player.position.x<innerWidth-41.5){
@@ -115,6 +118,7 @@ function draw(){
                 trophyCol=0;
                 for(var i=0; i<trophyNum;i++){
                     var item=createSprite(random(10,width-10),random(10,height-60),20,20);
+                    item.addImage(itemImg);
                     items.add(item);
         }
             }
