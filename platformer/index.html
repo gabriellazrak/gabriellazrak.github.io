@@ -5,6 +5,8 @@
         <link href="button.css" rel="stylesheet">
     </head>
     <body>
+        <p id="text"class="text1">left/right,up arrows for P1---down arrow to shoot</p>
+        <p id="texts"class="text2">'a'/'d','w' arrows for P2---'s' arrow to shoot</p>
         <button id="start" class="show">Start</button>
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script
@@ -14,6 +16,8 @@
 		<script>
             $("#start").click(function(){
                  $("#start").switchClass("showing", "hide");
+                 $("#text").switchClass("text1", "hide");
+                 $("#texts").switchClass("text2", "hide");
             });
         </script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.23/p5.min.js"></script>
