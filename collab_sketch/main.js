@@ -10,8 +10,6 @@ var pointsData=firebase.database().ref();
 var points=[];
 var r_g_b;
 document.ontouchmove = function(e){ e.preventDefault(); };
-this.webView.scrollView.bounces = NO;
-$('.color').colorPicker();
 function setup(){
     var canvas=createCanvas(window.innerWidth-50,window.innerHeight-250);
     background(255);
@@ -47,12 +45,20 @@ function draw(){
 function drawPoint() {
   pointsData.push({x: mouseX, y: mouseY, rgb: r_g_b});
 }
-$("#saveDrawing").on("click",saveDrawing);
 function saveDrawing(){
     saveCanvas();
 }
-$("#clearDrawing").on("click",clearDrawing);
+$("#saveDrawing").on("click", saveDrawing);
+
 function clearDrawing(){
     pointsData.remove();
-    points=[];
+    points = [];
+}
+$("#clearDrawing").on("click", clearDrawing);
+
+pointsData.on('child_removed', function () {
+    points = [];
+})
+if(self.webView){
+    self.webView.scrollView.bounces = NO;
 }
