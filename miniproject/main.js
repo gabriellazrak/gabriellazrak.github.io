@@ -28,8 +28,6 @@ function preload(){
 }
 
 function setup(){
-    life=document.getElementById("lives");
-    life.innerHTML("lives: "+lives);
     level=1;
     lives=3;
     trophytotal=0;
@@ -186,6 +184,7 @@ function mouseClicked(){
         level=1;
         difficulty=.99;
         trophyCol=0;
+        trophytotal=0;
         player.position.x=width/2;
         player.position.y=height-75;
         trophyNum=10;

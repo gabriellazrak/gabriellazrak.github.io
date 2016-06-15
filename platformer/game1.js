@@ -29,6 +29,7 @@ var turdImg;
 var shooters;
 var powerups;
 
+
 function preload(){
     bonusImg=loadImage("http://i.imgur.com/lSz4tzz.png");
     player1Lbl=loadImage("http://i.imgur.com/ABi3WVa.gif");
@@ -86,14 +87,23 @@ function draw(){
     if(started&&(p1_in||p2_in)){
         background(0);
         if(random()>difficulty){
-            var obstacle=createSprite(camera.position.x+width,random(0,height-65),30,30);
+            var obstacle=createSprite(camera.position.x+width/2-15,random(0,height-65),30,30);
             obstacle.addImage(enemyImg);
             obstacleSprites.add(obstacle);
             if (random()>.75){
-                var bullet=createSprite(obstacle.position.x,obstacle.position.y,20,20);
-                bullet.addImage(turdImg);
-                bullet.velocity.x=-5;
-                trump_shots.add(bullet);
+                var randomnum=floor(random(0,obstacleSprites.length-1));
+            if(obstacleSprites[randomnum].position.x<camera.position.x+width/2){
+                var bullet_x=obstacleSprites[randomnum].position.x;
+                var bullet_y=obstacleSprites[randomnum].position.y;
+            }else{
+                    randomnum=floor(random(0,obstacleSprites.length-1));
+                    var bullet_x=obstacleSprites[randomnum].position.x;
+                    var bullet_y=obstacleSprites[randomnum].position.y;
+            }
+            var bullet=createSprite(bullet_x,bullet_y,20,20);
+            bullet.addImage(turdImg);
+            bullet.velocity.x=-5;
+            trump_shots.add(bullet);
             }
         }
         if(random()>.99){
