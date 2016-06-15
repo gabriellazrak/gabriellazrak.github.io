@@ -9,7 +9,8 @@ var config = {
 var pointsData=firebase.database().ref();
 var points=[];
 var r_g_b;
-document.ontouchmove = function(e){ e.preventDefault(); }
+document.ontouchmove = function(e){ e.preventDefault(); };
+self.webView.scrollView.bounces = NO;
 function setup(){
     var canvas=createCanvas(window.innerWidth-50,window.innerHeight-250);
     background(255);
