@@ -17,7 +17,9 @@ var difficulty;
 var lives;
 var shooterImg;
 var itemImg;
-var bulletImg
+var bulletImg;
+var life;
+var trophytotal;
 
 function preload(){
     itemImg=loadImage("http://i.imgur.com/ZrExC4G.png");
@@ -26,8 +28,11 @@ function preload(){
 }
 
 function setup(){
+    life=document.getElementById("lives");
+    life.innerHTML("lives: "+lives);
     level=1;
     lives=3;
+    trophytotal=0;
     trophyNum=10;
     trophyCol=0;
     difficulty=.99;
@@ -116,11 +121,32 @@ function draw(){
                 difficulty-=.02;
                 trophyNum+=5;
                 trophyCol=0;
+                shooters.removeSprites();
+                bullets.removeSprites();
+                items.removeSprites();
+                airSprites.removeSprites();
+                groundSprites.removeSprites();
                 for(var i=0; i<trophyNum;i++){
                     var item=createSprite(random(10,width-10),random(10,height-60),20,20);
                     item.addImage(itemImg);
                     items.add(item);
-        }
+                }
+                for (var n = 0; n < numGroundSprites;n++){
+                    var groundSprite=createSprite(n*50 + 25,height-25,GROUND_SPRITE_WIDTH,GROUND_SPRITE_HEIGHT);
+                    groundSprites.add(groundSprite);
+                }
+                for (var n = 0; n < numGroundSprites;n++){
+                    var airSprite=createSprite(n*50 + 25,random(25,height-75),GROUND_SPRITE_WIDTH,GROUND_SPRITE_HEIGHT);
+                    airSprites.add(airSprite);
+                }
+                for(i=0; i<10;i++){
+                    var random_num=floor(random(0,numGroundSprites/10)*i);
+                    var bad_guy_width=airSprites[random_num].position.x;
+                    var bad_guy_height=airSprites[random_num].position.y;
+                    var bad_guy=createSprite(bad_guy_width,bad_guy_height,10,30);
+                    bad_guy.addImage(shooterImg);
+                    shooters.add(bad_guy);
+                }
             }
         
         drawSprites()
@@ -128,6 +154,7 @@ function draw(){
         background(0);
         fill(255);
         textAlign(CENTER);
+        text("You're score was "+trophytotal+" trophies!!!",camera.position.x,camera.position.y-15)
         text("Game Over! Click anywhere or press space to restart",camera.position.x,camera.position.y);
     }
 }
@@ -142,13 +169,14 @@ function _reset(point){
 }
 function collected(point){
     trophyCol+=1;
+    trophytotal+=1;
     var title=document.getElementById("trophies");
     title.innerHTML="trophies: "+trophyCol+"/"+trophyNum;
     point.remove();
 }
 function shot(point){
     lives-=1;
-    var life=document.getElementById("lives");
+    life = document.getElementById("lives");
     life.innerHTML="lives: "+lives;
     point.remove();
 }
@@ -158,6 +186,8 @@ function mouseClicked(){
         level=1;
         difficulty=.99;
         trophyCol=0;
+        player.position.x=width/2;
+        player.position.y=height-75;
         trophyNum=10;
         shooters.removeSprites();
         bullets.removeSprites();
@@ -185,6 +215,8 @@ function mouseClicked(){
             bad_guy.addImage(shooterImg);
             shooters.add(bad_guy);
         }
+        life = document.getElementById("lives");
+        life.innerHTML="lives: "+lives;
     }
 }
 function keyPressed(){
