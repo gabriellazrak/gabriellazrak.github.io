@@ -26,6 +26,12 @@ function setup(){
         }
         return false
     })
+    canvas.touchMoved(function(){
+        if (touchIsDown){
+            drawPoint();
+        }
+        return false
+    })
 }
 function draw(){
     background(255);
