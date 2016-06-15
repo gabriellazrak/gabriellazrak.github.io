@@ -22,6 +22,7 @@ function setup(){
         if (mouseIsPressed){
             drawPoint();
         }
+        return false
     })
 }
 function draw(){
