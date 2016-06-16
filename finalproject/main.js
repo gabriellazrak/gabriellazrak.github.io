@@ -1,57 +1,88 @@
 var player;
 var playerImg;
-var JUMP;
-var GRAVITY;
 var numGroundSprites;
 var groundSprites;
 var google;
 var googleImg;
-var bing;
-var bingImg;
+var twitter;
+var twitterImg;
 var yahoo;
 var yahooImg;
 var games;
 var gamesImg;
 var facebook;
 var facebookImg;
+var recent_trends;
+var recent_trends_img;
+var github;
+var githubImg;
+var backgrounds;
+var backgroundImg;
+var trophies;
+var trophyImg;
+var totalTrophies;
+var totalTimes;
+var TooMuchTime;
 
 function preload(){
+    trophyImg=loadImage("http://i.imgur.com/ZrExC4G.png")
+    backgroundImg=loadImage("http://i.imgur.com/Ai57mGP.png");
     playerImg=loadImage("http://i.imgur.com/J2uBjan.png");
     googleImg=loadImage("http://i.imgur.com/vOCBPSJ.png");
-    bingImg=loadImage("http://i.imgur.com/ai8qkfY.png");
+    twitterImg=loadImage("http://i.imgur.com/U3XL4Wa.png");
     yahooImg=loadImage("http://i.imgur.com/2qdDpNi.png");
     gamesImg=loadImage("http://i.imgur.com/0pUs355.png");
-    facebookImg=loadImage("http://i.imgur.com/PyXrVo6.jpg")
-    
+    facebookImg=loadImage("http://i.imgur.com/PyXrVo6.jpg");
+    recent_trends_img=loadImage("http://i.imgur.com/y2ui2FM.png");
+    githubImg=loadImage("http://i.imgur.com/4SZsB6X.png");
 }
 function setup(){
     createCanvas(window.innerWidth-50,window.innerHeight-50);
+    TooMuchTime=false;
     JUMP=-5;
     GRAVITY=.3;
+    totalTrophies=0;
+    totalTimes=1
+    backgrounds= new Group();
+    trophies= new Group();
     numGroundSprites=width/50;
-    player=createSprite(width/2,height-75,50,50);
-    player.addImage(playerImg);
     groundSprites= new Group();
     for (var n = 0; n < numGroundSprites;n++){
         var groundSprite=createSprite(n*50 + 25,height-25,50,50);
         groundSprites.add(groundSprite);
     }
+    var x_list=[width/4,width/4,3*width/4,3*width/4,width/2,width/8,7*width/8];
+    var y_list=[height/4,3*height/4,height/4,3*height/4,height/8,height/2,height/2];
+    for (var i=0; i<7;i++){
+        var background=createSprite(x_list[i],y_list[i],100,100);
+        background.addImage(backgroundImg);
+        backgrounds.add(background);
+    }
     google=createSprite(width/4,height/4,100,50);
     google.addImage(googleImg);
     yahoo=createSprite(width/4,3*height/4,100,50);
     yahoo.addImage(yahooImg);
-    bing=createSprite(3*width/4,height/4,100,50);
-    bing.addImage(bingImg);
+    twitter=createSprite(3*width/4,height/4,100,50);
+    twitter.addImage(twitterImg);
     games=createSprite(3*width/4,3*height/4,100,50);
     games.addImage(gamesImg);
     facebook=createSprite(width/2,height/8,100,50);
     facebook.addImage(facebookImg);
+    recent_trends=createSprite(width/8,height/2,100,50);
+    recent_trends.addImage(recent_trends_img);
+    github=createSprite(7*width/8,height/2,100,50);
+    github.addImage(githubImg);
+    for (var z=0;z<17;z++){
+        var newTrophy=createSprite(floor(random(10,window.innerWidth-60)),floor(random(30,window.innerHeight-105)),10,30);
+        newTrophy.addImage(trophyImg);
+        trophies.add(newTrophy);
+    }
+    player=createSprite(width/2,height-75,50,50);
+    player.addImage(playerImg);
 }
 function draw(){
-    background(0);
-    player.velocity.y+=GRAVITY;
+    background(10);
     if(groundSprites.overlap(player)){
-        player.velocity.y=0
         player.position.y = (height-50) - (player.height/2);
     }
     if(keyDown(RIGHT_ARROW)&&player.position.x<width-10){
@@ -61,7 +92,10 @@ function draw(){
         player.position.x=player.position.x - 3;
     }
     if(keyDown(UP_ARROW)&&player.position.y>25){
-        player.velocity.y=JUMP;
+        player.position.y-=3;
+    }
+    if(keyDown(DOWN_ARROW)&&player.position.y<height-75){
+        player.position.y+=3;
     }
     if(camera.position.x<window.innerWidth-(camera.width+50)){
         camera.position.x=player.position.x;
@@ -75,8 +109,8 @@ function draw(){
         player.position.x=width/2;
         player.position.y=height-75;
     }
-    if(bing.overlap(player)){
-        window.open("https://www.bing.com");
+    if(twitter.overlap(player)){
+        window.open("https://www.twitter.com");
         player.position.x=width/2;
         player.position.y=height-75;
     }
@@ -95,5 +129,34 @@ function draw(){
         player.position.x=width/2;
         player.position.y=height-75;
     }
+    if (recent_trends.overlap(player)){
+        window.open("https://www.google.com/#q=politics")
+        player.position.x=width/2;
+        player.position.y=height-75;
+    }
+    if (github.overlap(player)){
+        window.open("https://www.github.com")
+        player.position.x=width/2;
+        player.position.y=height-75;
+    }
+    trophies.overlap(player,delete_trophies);
     drawSprites();
+}
+function delete_trophies(point){
+    point.remove();
+    totalTrophies+=1
+    if (totalTrophies===17*totalTimes&&!TooMuchTime){
+        totalTimes+=1
+        if(totalTimes===6){
+            alert("Achievement unlocked: Too Much Time !!!")
+            TooMuchTime=true;
+        }
+        if(!TooMuchTime){
+            for (var z=0;z<17;z++){
+                var newTrophy=createSprite(floor(random(10,window.innerWidth-60)),floor(random(30,window.innerHeight-105)),10,30);
+                newTrophy.addImage(trophyImg);
+                trophies.add(newTrophy);
+            }
+        }
+    }
 }
