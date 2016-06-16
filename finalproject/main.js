@@ -22,6 +22,7 @@ var trophies;
 var trophyImg;
 var totalTrophies;
 var totalTimes;
+var trophyAmount;
 var TooMuchTime;
 
 function preload(){
@@ -41,6 +42,7 @@ function setup(){
     TooMuchTime=false;
     JUMP=-5;
     GRAVITY=.3;
+    trophyAmount=0;
     totalTrophies=0;
     totalTimes=1
     backgrounds= new Group();
@@ -74,6 +76,14 @@ function setup(){
     github.addImage(githubImg);
     for (var z=0;z<17;z++){
         var newTrophy=createSprite(floor(random(10,window.innerWidth-60)),floor(random(30,window.innerHeight-105)),10,30);
+        for (var i=0; i<7;i++){
+            if((newTrophy.position.x>x_list[i]-100&&newTrophy.position.x<x_list[i]+100)&&(newTrophy.position.y>y_list[i]-50&&newTrophy.position.y<y_list[i]+50)){
+                newTrophy.remove();
+                trophyAmount-=1
+            }
+            
+        }
+        trophyAmount+=1
         newTrophy.addImage(trophyImg);
         trophies.add(newTrophy);
     }
@@ -86,16 +96,16 @@ function draw(){
         player.position.y = (height-50) - (player.height/2);
     }
     if(keyDown(RIGHT_ARROW)&&player.position.x<width-10){
-            player.position.x=player.position.x + 3;
+            player.position.x=player.position.x + 5;
     }
     if(keyDown(LEFT_ARROW)&&player.position.x>25){
-        player.position.x=player.position.x - 3;
+        player.position.x=player.position.x - 5;
     }
     if(keyDown(UP_ARROW)&&player.position.y>25){
-        player.position.y-=3;
+        player.position.y-=5;
     }
     if(keyDown(DOWN_ARROW)&&player.position.y<height-75){
-        player.position.y+=3;
+        player.position.y+=5;
     }
     if(camera.position.x<window.innerWidth-(camera.width+50)){
         camera.position.x=player.position.x;
@@ -144,11 +154,11 @@ function draw(){
 }
 function delete_trophies(point){
     point.remove();
-    totalTrophies+=1
-    if (totalTrophies===17*totalTimes&&!TooMuchTime){
-        totalTimes+=1
+    totalTrophies+=1;
+    if (totalTrophies===trophyAmount*totalTimes&&!TooMuchTime){
+        totalTimes+=1;
         if(totalTimes===6){
-            alert("Achievement unlocked: Too Much Time !!!")
+            alert("Achievement unlocked: Too Much Time !!!");
             TooMuchTime=true;
         }
         if(!TooMuchTime){
