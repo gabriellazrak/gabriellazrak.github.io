@@ -10,12 +10,18 @@ var bing;
 var bingImg;
 var yahoo;
 var yahooImg;
+var games;
+var gamesImg;
+var facebook;
+var facebookImg;
 
 function preload(){
     playerImg=loadImage("http://i.imgur.com/J2uBjan.png");
     googleImg=loadImage("http://i.imgur.com/vOCBPSJ.png");
     bingImg=loadImage("http://i.imgur.com/ai8qkfY.png");
-    yahooImg=loadImage("http://i.imgur.com/2qdDpNi.png")
+    yahooImg=loadImage("http://i.imgur.com/2qdDpNi.png");
+    gamesImg=loadImage("http://i.imgur.com/0pUs355.png");
+    facebookImg=loadImage("http://i.imgur.com/PyXrVo6.jpg")
     
 }
 function setup(){
@@ -36,6 +42,10 @@ function setup(){
     yahoo.addImage(yahooImg);
     bing=createSprite(3*width/4,height/4,100,50);
     bing.addImage(bingImg);
+    games=createSprite(3*width/4,3*height/4,100,50);
+    games.addImage(gamesImg);
+    facebook=createSprite(width/2,height/8,100,50);
+    facebook.addImage(facebookImg);
 }
 function draw(){
     background(0);
@@ -61,7 +71,29 @@ function draw(){
         camera.position.x=camera.position.x;
     }
     if(google.overlap(player)){
-        window.open("https//www.google.com");
+        window.open("https://www.google.com");
+        player.position.x=width/2;
+        player.position.y=height-75;
+    }
+    if(bing.overlap(player)){
+        window.open("https://www.bing.com");
+        player.position.x=width/2;
+        player.position.y=height-75;
+    }
+    if(yahoo.overlap(player)){
+        window.open("https://www.yahoo.com");
+        player.position.x=width/2;
+        player.position.y=height-75;
+    }
+    if (games.overlap(player)){
+        window.open("https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=free%20online%20games")
+        player.position.x=width/2;
+        player.position.y=height-75;
+    }
+    if (facebook.overlap(player)){
+        window.open("https://www.facebook.com")
+        player.position.x=width/2;
+        player.position.y=height-75;
     }
     drawSprites();
 }
