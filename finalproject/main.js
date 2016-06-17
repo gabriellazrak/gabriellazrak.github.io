@@ -26,7 +26,7 @@ var trophyAmount;
 var TooMuchTime;
 
 function preload(){
-    trophyImg=loadImage("http://i.imgur.com/ZrExC4G.png")
+    trophyImg=loadImage("http://i.imgur.com/ZrExC4G.png");
     backgroundImg=loadImage("http://i.imgur.com/Ai57mGP.png");
     playerImg=loadImage("http://i.imgur.com/J2uBjan.png");
     googleImg=loadImage("http://i.imgur.com/vOCBPSJ.png");
@@ -40,11 +40,11 @@ function preload(){
 function setup(){
     createCanvas(window.innerWidth-50,window.innerHeight-50);
     TooMuchTime=false;
-    JUMP=-5;
-    GRAVITY=.3;
     trophyAmount=0;
     totalTrophies=0;
-    totalTimes=1
+    totalTimes=1;
+    var x_list=[width/4,width/4,3*width/4,3*width/4,width/2,width/8,7*width/8];
+    var y_list=[height/4,3*height/4,height/4,3*height/4,height/8,height/2,height/2];
     backgrounds= new Group();
     trophies= new Group();
     numGroundSprites=width/50;
@@ -53,8 +53,6 @@ function setup(){
         var groundSprite=createSprite(n*50 + 25,height-25,50,50);
         groundSprites.add(groundSprite);
     }
-    var x_list=[width/4,width/4,3*width/4,3*width/4,width/2,width/8,7*width/8];
-    var y_list=[height/4,3*height/4,height/4,3*height/4,height/8,height/2,height/2];
     for (var i=0; i<7;i++){
         var background=createSprite(x_list[i],y_list[i],100,100);
         background.addImage(backgroundImg);
@@ -79,7 +77,7 @@ function setup(){
         for (var i=0; i<7;i++){
             if((newTrophy.position.x>x_list[i]-100&&newTrophy.position.x<x_list[i]+100)&&(newTrophy.position.y>y_list[i]-50&&newTrophy.position.y<y_list[i]+50)){
                 newTrophy.remove();
-                trophyAmount-=1
+                trophyAmount-=1;
             }
             
         }
@@ -155,15 +153,25 @@ function draw(){
 function delete_trophies(point){
     point.remove();
     totalTrophies+=1;
-    if (totalTrophies===trophyAmount*totalTimes&&!TooMuchTime){
+    var x_list=[width/4,width/4,3*width/4,3*width/4,width/2,width/8,7*width/8];
+    var y_list=[height/4,3*height/4,height/4,3*height/4,height/8,height/2,height/2];
+    if (totalTrophies===trophyAmount&&!TooMuchTime){
         totalTimes+=1;
         if(totalTimes===6){
             alert("Achievement unlocked: Too Much Time !!!");
             TooMuchTime=true;
         }
         if(!TooMuchTime){
-            for (var z=0;z<17;z++){
+            for (var z=0;z<trophyAmount-((totalTimes-1)*trophyAmount/totalTimes);z++){
                 var newTrophy=createSprite(floor(random(10,window.innerWidth-60)),floor(random(30,window.innerHeight-105)),10,30);
+                for (var i=0; i<7;i++){
+                    if((newTrophy.position.x>x_list[i]-100&&newTrophy.position.x<x_list[i]+100)&&(newTrophy.position.y>y_list[i]-50&&newTrophy.position.y<y_list[i]+50)){
+                        newTrophy.remove();
+                        trophyAmount-=1;
+                    }
+                    
+                }
+                trophyAmount+=1
                 newTrophy.addImage(trophyImg);
                 trophies.add(newTrophy);
             }
