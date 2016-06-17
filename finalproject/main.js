@@ -24,8 +24,12 @@ var totalTrophies;
 var totalTimes;
 var trophyAmount;
 var TooMuchTime;
+var custom;
+var customImg;
+var customInput="www.google.com";
 
 function preload(){
+    customImg=loadImage("http://i.imgur.com/drK59Nx.gif");
     trophyImg=loadImage("http://i.imgur.com/ZrExC4G.png");
     backgroundImg=loadImage("http://i.imgur.com/Ai57mGP.png");
     playerImg=loadImage("http://i.imgur.com/J2uBjan.png");
@@ -39,12 +43,16 @@ function preload(){
 }
 function setup(){
     createCanvas(window.innerWidth-50,window.innerHeight-50);
+    customInput=prompt("What link do you want to have for your custom shortcut");
+    if (customInput===null){
+        customInput="www.google.com";
+    }
     TooMuchTime=false;
     trophyAmount=0;
     totalTrophies=0;
     totalTimes=1;
-    var x_list=[width/4,width/4,3*width/4,3*width/4,width/2,width/8,7*width/8];
-    var y_list=[height/4,3*height/4,height/4,3*height/4,height/8,height/2,height/2];
+    var x_list=[width/4,width/4,3*width/4,3*width/4,width/2,width/8,7*width/8,width/2];
+    var y_list=[height/4,3*height/4,height/4,3*height/4,height/8,height/2,height/2,height/2];
     backgrounds= new Group();
     trophies= new Group();
     numGroundSprites=width/50;
@@ -53,7 +61,7 @@ function setup(){
         var groundSprite=createSprite(n*50 + 25,height-25,50,50);
         groundSprites.add(groundSprite);
     }
-    for (var i=0; i<7;i++){
+    for (var i=0; i<8;i++){
         var background=createSprite(x_list[i],y_list[i],100,100);
         background.addImage(backgroundImg);
         backgrounds.add(background);
@@ -72,6 +80,8 @@ function setup(){
     recent_trends.addImage(recent_trends_img);
     github=createSprite(7*width/8,height/2,100,50);
     github.addImage(githubImg);
+    custom=createSprite(width/2,height/2,50,50);
+    custom.addImage(customImg);
     for (var z=0;z<17;z++){
         var newTrophy=createSprite(floor(random(10,window.innerWidth-60)),floor(random(30,window.innerHeight-105)),10,30);
         for (var i=0; i<7;i++){
@@ -128,22 +138,27 @@ function draw(){
         player.position.y=height-75;
     }
     if (games.overlap(player)){
-        window.open("https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=free%20online%20games")
+        window.open("https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=free%20online%20games");
         player.position.x=width/2;
         player.position.y=height-75;
     }
     if (facebook.overlap(player)){
-        window.open("https://www.facebook.com")
+        window.open("https://www.facebook.com");
         player.position.x=width/2;
         player.position.y=height-75;
     }
     if (recent_trends.overlap(player)){
-        window.open("https://www.google.com/#q=politics")
+        window.open("https://www.google.com/#q=politics");
         player.position.x=width/2;
         player.position.y=height-75;
     }
     if (github.overlap(player)){
-        window.open("https://www.github.com")
+        window.open("https://www.github.com");
+        player.position.x=width/2;
+        player.position.y=height-75;
+    }
+    if (custom.overlap(player)){
+        window.open("https://"+customInput);
         player.position.x=width/2;
         player.position.y=height-75;
     }
