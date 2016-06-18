@@ -28,18 +28,33 @@ var trump_shots;
 var turdImg;
 var shooters;
 var powerups;
+var Background;
+var Background2;
+var Background3;
+var backgroundImg;
+var background2Img;
+var background3Img;
 
 
 function preload(){
-    bonusImg=loadImage("http://i.imgur.com/lSz4tzz.png");
-    player1Lbl=loadImage("http://i.imgur.com/ABi3WVa.gif");
-    player2Lbl=loadImage("http://i.imgur.com/vx9WPrt.jpg");
-    enemyImg=loadImage("http://i.imgur.com/DXk9fPO.png");
-    fire=loadImage("http://i.imgur.com/rwx0YvP.png");
-    turdImg=loadImage("http://i.imgur.com/mnwfIL9.gif");
+    backgroundImg=loadGif("background.gif");
+    background2Img=loadGif("background2.gif");
+    background3Img=loadGif("background3.gif");
+    bonusImg=loadImage("//i.imgur.com/lSz4tzz.png");
+    player1Lbl=loadImage("//i.imgur.com/ABi3WVa.gif");
+    player2Lbl=loadImage("//i.imgur.com/vx9WPrt.jpg");
+    enemyImg=loadImage("//i.imgur.com/DXk9fPO.png");
+    fire=loadImage("//i.imgur.com/rwx0YvP.png");
+    turdImg=loadImage("//i.imgur.com/mnwfIL9.gif");
     
 }
 function setup(){
+    Background=createSprite(width/2,height/2,window.innerWidth-100,window.innerHeight-100)
+    Background.addImage(backgroundImg);
+    Background2=createSprite(width-200,height/2,window.innerWidth-100,window.innerHeight-100)
+    Background2.addImage(background2Img);
+    Background3=createSprite(200,height/2,window.innerWidth-100,window.innerHeight-100)
+    Background3.addImage(background3Img);
     isGameOver=false;
     p1_in=true;
     p2_in=true;
@@ -89,6 +104,12 @@ function draw(){
             text("Game Over! Click anywhere or press space to restart",camera.position.x,camera.position.y+20);
         }
         if(started&&!isGameOver){
+            Background.position.x=camera.position.x;
+            Background.position.y=camera.position.y;
+            Background2.position.x=camera.position.x+width/2-200;
+            Background2.position.y=camera.position.y;
+            Background3.position.x=camera.position.x-width/2+200;
+            Background3.position.y=camera.position.y;
             background(0);
             if(random()>difficulty){
                 var obstacle=createSprite(camera.position.x+width/2-15,random(0,height-65),30,30);
@@ -196,6 +217,12 @@ function draw(){
             text("Game Over! Click anywhere or press space to restart",camera.position.x,camera.position.y+20);
         }
         if(started&&(p1_in||p2_in)){
+            Background.position.x=camera.position.x;
+            Background.position.y=camera.position.y;
+            Background2.position.x=camera.position.x+width/2-200;
+            Background2.position.y=camera.position.y;
+            Background3.position.x=camera.position.x-width/2+200;
+            Background3.position.y=camera.position.y;
             background(0);
             if(random()>difficulty){
                 var obstacle=createSprite(camera.position.x+width/2-15,random(0,height-65),30,30);
@@ -409,7 +436,7 @@ function game_over(){
 function playSong(){
     var song= new Audio("Geometry_song.mp3");
     song.play();
-    setInterval(song.play,5180);
+    song.addEventListener('ended',song.play);
 }
 function uhOh(){
     var uhOh= new Audio("uhoh.1.mp3");
